@@ -1,0 +1,56 @@
+<h1>Serach Result</h1>
+
+<div class="container" id="container">
+
+<div *ngIf="!result">
+          <img src="../../../assets/img/notFound.jpg" alt="" style="width: 300px ;">
+          <h3>Your search <b>{{keyWorld}}</b> did not match any documents.</h3>
+</div>
+</div>
+
+<div class="container-fluid" *ngIf="result">
+    <div *ngIf="clients.length">
+        <h1>Clients : </h1>
+        <div class="grid-container" >
+            <div class="grid-item" *ngFor="let client of clients">
+                <p-card header="{{ client.client_name}}" [style]="{'width': '25rem', 'margin-bottom': '2em'}">
+                  email : {{client.email}} <br>
+                  phone : {{client.phone}} 
+                </p-card>
+            </div>
+          
+          </div>
+    </div>
+
+
+    <div *ngIf="projects.length">
+        <h1>Projects : </h1>
+        <div class="grid-container" >
+            <div class="grid-item" *ngFor="let project of projects">
+                <p-card header="{{ project.project_name}}" [style]="{'width': '25rem', 'margin-bottom': '2em'}">
+                  project Name : {{project.project_name}} <br>
+                  Client  : {{project.client.client_name}} 
+                </p-card>
+            </div>
+          
+          </div>
+    </div>
+
+
+    <div *ngIf="contacts.length">
+        <h1>Contacts : </h1>
+        <div class="grid-container" >
+            <div class="grid-item" *ngFor="let contact of contacts">
+                <p-card header="{{ contact.contact_name}}" [style]="{'width': '25rem', 'margin-bottom': '2em'}">
+                 Postion : {{contact.position}} <br>
+                  Email  : {{contact.contact_email}} 
+                </p-card>
+            </div>
+          
+          </div>
+    </div>
+</div>
+
+    <div class="p-d-flex p-ai-center p-jc-between">
+     >   In total there are {{result ? result : 0 }} Results.
+    </div>

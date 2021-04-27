@@ -1,0 +1,230 @@
+    <div *ngIf="dashboardAccess()"> 
+    <div class="p-d-flex p-jc-center">
+        <div class="p-grid">
+    
+                <div class="p-d-flex p-flex-column">
+                    <div class="p-d-flex p-flex-column p-flex-md-row ">
+                    
+                        <div class="p-mb-2 p-mr-2"> 
+                            <p-card  [style]="{'width': '20rem', 'margin-bottom': '2em', 'margin-right': '2rem','height': '8rem','background-color':'#0984e3','cursor':'pointer'}"(click)="showcContracts(maintContracts)">
+                                <p-card  [style]="{'width': '20rem','height': '2rem','margin-left': '-1rem','margin-top': '-2rem','background-color':'#74b9ff'}">
+                                </p-card>
+                                <button pButton pRipple type="button" icon="pi pi-file" class="p-button-rounded"[style]="{'margin-left':'7.5em','margin-top':'-3em','background-color':'#0984e3','border':'none'}"></button>
+                                <h1 style="color:cornsilk;font-size: 15px;margin-left:6em  ; ">Maintenance</h1>
+                                <h1 style="margin-left: 5em;font-size: 25px; color: cornsilk;margin-top:1rem">{{ maintContracts ? maintContracts.length : 0 }}</h1>
+
+                                <ng-template pTemplate="footer" >
+                                </ng-template>
+                            </p-card>
+                        </div>
+                        
+                    
+                        <div class="p-mb-2 p-mr-2"> 
+                            <p-card  [style]="{'width': '20rem', 'margin-bottom': '2em', 'margin-right': '2rem','height': '8rem','background-color':'#FBC531','cursor':'pointer'}"(click)="showcContracts(hostingtContracts)">
+                                    <p-card  [style]="{'width': '20rem','height': '2rem','margin-left': '-1rem','margin-top': '-2rem','background-color':'#f6e58d'}">
+                                    </p-card>
+                                    <button pButton pRipple type="button" icon="pi pi-file" class="p-button-rounded"[style]="{'margin-left':'7.5em','margin-top':'-3em','background-color':'#FBC531','border':'none'}"></button>
+                                    <h1 style="color:cornsilk;font-size: 15px;margin-left:7em  ; ">Hosting</h1>
+                                    <h1 style="margin-left: 5em;font-size: 25px; color: cornsilk;margin-top:1rem">{{ hostingtContracts ? hostingtContracts.length : 0 }}</h1>
+        
+                                    <ng-template pTemplate="footer" >
+                                    </ng-template>
+                                </p-card>
+                        </div>
+                        
+                            <div class="p-mb-2 p-mr-2"> 
+                            <p-card  [style]="{'width': '20rem', 'margin-bottom': '2em', 'margin-right': '2rem','height': '8rem','background-color':'#6ab04c','cursor':'pointer'}"(click)="showcContracts(updateContracts)">
+                                    <p-card  [style]="{'width': '20rem','height': '2rem','margin-left': '-1rem','margin-top': '-2rem','background-color':'#badc58'}">
+                                    </p-card>
+                                    <button pButton pRipple type="button" icon="pi pi-file" class="p-button-rounded"[style]="{'margin-left':'7.5em','margin-top':'-3em','background-color':'#6ab04c','border':'none'}"></button>
+                                    <h1 style="color:cornsilk;font-size: 15px;margin-left:7em  ; ">Update</h1>
+                                    <h1 style="margin-left: 5em;font-size: 25px; color: cornsilk;margin-top:1rem">{{ updateContracts ? updateContracts.length : 0 }}</h1>
+        
+                                    <ng-template pTemplate="footer" >
+                                    </ng-template>
+                                </p-card>
+                            </div>
+                    
+                    </div>
+                </div>
+
+
+
+        </div>
+    </div>      
+
+
+
+
+    <div class="card">
+        <p-toolbar styleClass="p-mb-4">
+            <ng-template pTemplate="left">
+                <button pButton pRipple label="Delete" icon="pi pi-trash"[disabled]="!selectedContracts || !selectedContracts.length"class="p-button-rounded p-button-danger"></button>
+            </ng-template>
+        </p-toolbar>
+
+        <p-table #dt [value]="contracts" [rows]="5" [paginator]="true" [globalFilterFields]="['name','start_date','end_date','type','status','client_name']"
+        [(selection)]="selectedContracts" [rowHover]="true" dataKey="id"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true"
+        styleClass="p-datatable-responsive-demo">
+        <ng-template pTemplate="caption" dataKey="id">
+            <div class="p-d-flex p-ai-center p-jc-between">
+                <h5 class="p-m-0">Manage Contracts</h5>
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" class="brad"placeholder="Search..." style="border-radius: 10px;" />
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 3rem">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th pSortableColumn="name">Contract Name <p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="client_name">Client Name <p-sortIcon field="client_name"></p-sortIcon></th>
+                <th pSortableColumn="start_date">Start Date <p-sortIcon field="start_date"></p-sortIcon></th>
+                <th pSortableColumn="end_date">End Date <p-sortIcon field="end_date"></p-sortIcon></th>
+                <th pSortableColumn="type">Type <p-sortIcon field="type"></p-sortIcon></th>
+                <th pSortableColumn="type">Status <p-sortIcon field="type"></p-sortIcon></th>
+                <th pSortableColumn="status">Reminder Email<p-sortIcon field="status"></p-sortIcon></th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-contract>
+            <tr>
+                <td>
+                    <p-tableCheckbox [value]="contract"></p-tableCheckbox>
+                </td>
+                <td>{{contract.paper_name}}</td>
+                <td>{{contract.project.client.client_name}}</td>
+                <td>{{contract.start_date  | date: 'mediumDate' }}</td>
+                <td>{{contract.end_date  | date: 'mediumDate' }}</td>
+                <td>{{ contract.type.paper_type.toUpperCase() }}</td>
+                <td><p-tag styleClass="p-mr-2" icon="pi {{filterStatus(contract.status).icon }}" class="tags"   
+                    [style.background]="filterStatus(contract.status).color" value="{{ filterStatus(contract.status).status_name}}" [rounded]="false" ></p-tag></td> 
+                
+                <td>
+                    <p-tag styleClass="p-mr-2" icon="pi {{filterStatus1(contract.isReminded).icon }}" class="tags"   
+                    [style.background]="filterStatus1(contract.isReminded).color" value="{{ filterStatus1(contract.isReminded).status_name}}" [rounded]="false" ></p-tag>
+                </td> 
+                   
+                <td>
+                    <button pButton pRipple icon="pi pi-send" class="p-button-rounded p-button-success p-mr-2"  (click)="showEmail()"></button>
+                    <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-warning " (click)="preview()"></button>  
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="p-d-flex p-ai-center p-jc-between">
+                In total there are {{contracts ? contracts.length : 0 }} Contracts.
+            </div>
+        </ng-template>
+    </p-table>
+    </div>
+
+    
+
+
+    <!-- Modal for email editing-->
+    <p-dialog header="Preview" [(visible)]="emailEditModal" [modal]="true" [style]="{width: '80vw'}" [baseZIndex]="10000"
+        [draggable]="false" [resizable]="false">
+    <p-editor [(ngModel)]="text"  [style]="{'height':'320px'}"></p-editor>
+    
+    
+            <ng-template pTemplate="footer">
+                <p-button icon="pi pi-times" (click)="emailEditModal=false" label="Cancel" styleClass="p-button-text"></p-button>
+                <p-button icon="pi pi-send" label="Send" styleClass="p-button-text"></p-button>
+            
+            </ng-template>
+    </p-dialog>
+
+
+
+
+    <!--Modal for more info-->
+
+
+    <p-dialog header="More Info" [(visible)]="moreInfoModal" [modal]="true" [style]="{ width: '650px' }" [baseZIndex]="10000"[draggable]="true"[resizable]="true">
+        <img class="center"  src="assets/img/cog_tools_configuration_settings_icon_131758.ico"/>
+        <br />
+ 
+    
+        <ng-template pTemplate="footer">
+        <p-button icon="pi pi-check"  (click)="moreInfoModal = false" label="Ok" styleClass="p-button-text"></p-button>
+        </ng-template>
+    </p-dialog>
+
+
+    <!-- Modal for preview-->
+
+    <p-dialog header="Preview" [(visible)]="previewModal" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000"
+        [draggable]="false" [resizable]="false">
+        <p class="p-m-0">preview</p>
+            <ng-template pTemplate="footer">
+                <p-button icon="pi pi-check" (click)="previewModal=false" label="Ok" styleClass="p-button-text"></p-button>
+                
+            </ng-template>
+    </p-dialog>
+
+
+
+    <p-dialog header="Preview" [(visible)]="contractsModal" [modal]="true" [style]="{width: '70vw'}" [baseZIndex]="10000"
+    [draggable]="false" [resizable]="false">
+  
+    
+    <p-table #dt [value]="selectedContractsType" [rows]="5" [paginator]="true" [globalFilterFields]="['name','start_date','end_date','type','status']"
+    [(selection)]="selectedContracts" [rowHover]="true" dataKey="id"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true"
+    styleClass="p-datatable-responsive-demo">
+    <ng-template pTemplate="caption" dataKey="id">
+        <div class="p-d-flex p-ai-center p-jc-between">
+            <h5 class="p-m-0">Manage Contracts</h5>
+            <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" class="brad"placeholder="Search..." style="border-radius: 10px;" />
+            </span>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+           
+            <th pSortableColumn="name">Contract Name <p-sortIcon field="name"></p-sortIcon></th>
+            <th pSortableColumn="start_date">Start Date <p-sortIcon field="start_date"></p-sortIcon></th>
+            <th pSortableColumn="end_date">End Date <p-sortIcon field="end_date"></p-sortIcon></th>
+            <th pSortableColumn="type">Type <p-sortIcon field="type"></p-sortIcon></th>
+            <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
+            <th></th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-contract>
+        <tr>
+           
+            <td>{{contract.paper_name}}</td>
+            <td>{{contract.start_date  | date: 'mediumDate' }}</td>
+            <td>{{contract.end_date  | date: 'mediumDate' }}</td>
+            <td>{{ contract.type.paper_type.toUpperCase() }}</td>
+            <td><p-tag styleClass="p-mr-2" icon="pi {{filterStatus(contract.status).icon }}" class="tags"   
+                [style.background]="filterStatus(contract.status).color" value="{{ filterStatus(contract.status).status_name}}" [rounded]="false" ></p-tag></td> 
+            
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+        <div class="p-d-flex p-ai-center p-jc-between">
+            In total there are {{selectedContractsType ? selectedContractsType.length : 0 }} Contracts.
+        </div>
+    </ng-template>
+</p-table>
+        <ng-template pTemplate="footer">
+            <p-button icon="pi pi-check" (click)="contractsModal=false" label="Close" styleClass="p-button-text"></p-button>
+             </ng-template>
+</p-dialog>
+    </div>
+
+
+
+
+    <div *ngIf="!dashboardAccess()">
+        <img src="../../assets/img/10808.jpg" alt="" style="width:150px; height: 150px;">
+<h1>hello noobs</h1>
+    </div>

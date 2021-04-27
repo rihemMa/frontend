@@ -1,0 +1,232 @@
+<h1 class="title_erp">Manage Paper type</h1>
+
+<!--Toolbar-->
+<p-toolbar
+  [style]="{
+    width: '70rem',
+    'margin-bottom': '2rem',
+    'margin-right': '2rem',
+    height: '4rem',
+    'background-color': '',
+    border: 'none'
+  }"
+  styleClass="p-mb-4"
+>
+  <ng-template pTemplate="left">
+    <button
+      pButton
+      pRipple
+      label="New"
+      icon="pi pi-plus"
+      class="p-button-success p-mr-2 p-button-rounded"
+      (click)="openTypeModal()"
+    ></button>
+    <button
+      pButton
+      pRipple
+      style="color: white"
+      icon="pi pi-trash"
+      [disabled]="!selectedTypes || !selectedTypes.length"
+      class="p-button-rounded p-button-warning"
+      (click)="deleteType()"
+    ></button>
+  </ng-template>
+</p-toolbar>
+
+<!--Table-->
+<div class="card">
+<p-table
+  #dt
+  [value]="paperTypes | paperTypePipe:searchKey"
+  [rows]="10"
+  [paginator]="true"
+  [globalFilterFields]="['user_name', 'email','role']"
+  [rowHover]="true"
+  dataKey="id"
+  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+  [showCurrentPageReport]="true" 
+  styleClass="p-datatable-responsive-demo"
+  [(selection)]="selectedTypes"
+>
+  <ng-template pTemplate="caption">
+    <div class="p-d-flex p-ai-center p-jc-between">
+      <h5 class="p-m-0 title_erp" style="font-size: 20px; "> Users List</h5>
+      <span class="p-input-icon-left">
+        <i class="pi pi-search"></i>
+        <input pInputText type="text" class="brad" placeholder="Search..." [(ngModel)]="searchKey"/>
+      </span>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th style="width: 3rem">
+        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+      </th>
+      <th pSortableColumn="paper_type">
+        Type <p-sortIcon field="paper_type"></p-sortIcon>
+      </th>
+    
+
+      <th></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-type>
+    <tr>
+      <td>
+        <p-tableCheckbox [value]="type"></p-tableCheckbox>
+      </td>
+            <td>{{ type.paper_type }}</td>
+        <td>
+        <button
+          pButton
+          pRipple
+          icon="pi pi-pencil"
+          class="p-button-rounded p-button-success p-mr-2"
+          (click)="getSelectedType(type)"  ></button>
+
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="summary">
+    <div class="p-d-flex p-ai-center p-jc-between">
+      In total there are {{ paperTypes ? paperTypes.length : 0 }} paperTypes.
+    </div>
+  </ng-template>
+</p-table>
+</div>
+
+<!-- New popup-->
+<p-dialog header="Add new Type" [(visible)]="addTypeModal" [modal]="true" [style]="{ width: '150vh' }"
+[baseZIndex]="10000" [draggable]="false"[resizable]="true" styleClass="p-fluid">
+        
+    <form [formGroup]="typeForm" >
+    
+        <div class="p-grid p-fluid">  
+  
+  
+          <div class="p-field p-col-6 ">
+             <label for="paper_name">Type Name</label>
+                  <input id="type_name" type="text" pInputText class="brad" formControlName="type_name"> 
+                  <div *ngIf="type_name.touched && type_name.invalid"> 
+                    <small *ngIf="type_name.errors.required"class="text-danger">Name is required <br> </small> 
+                    <small  *ngIf="type_name.errors.minlength" class="text-danger">Name must contain 4 characters at least<br></small> 
+                    <small *ngIf="type_name.errors.maxlength" class="text-danger">Name must contain max 20 characters</small> 
+                  </div> 
+              </div>
+          <div class="p-field p-col-6 " [style]="{'margin-top':'5vh'}">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="flexCheckDefault" formControlName="alert" (change)="isRenewing($event)" >
+              <label class="form-check-label" for="flexCheckDefault">
+              <h2>Is Renewing</h2> 
+              </label>
+            </div>
+        
+          </div>
+        </div>
+        <div   *ngIf="showMailForm">
+        <h2>Email Info : <button pButton pRipple type="button" icon="pi pi-info-circle" class="p-button-rounded p-button-danger p-button-text" (click)="displayBasic=true"></button>
+        </h2>
+        <div class="p-grid p-fluid">  
+              <div class="p-field p-col-6 ">
+                <label for="paper_name">Subject :</label>
+                     <input id="type_name" type="text" pInputText class="brad" formControlName="subject"> 
+                     <div *ngIf="subject.touched && subject.invalid"> 
+                       <small *ngIf="subject.errors.required"class="text-danger">Name is required <br> </small> 
+                       <small  *ngIf="subject.errors.minlength" class="text-danger">Name must contain 4 characters at least<br></small> 
+                       <small *ngIf="subject.errors.maxlength" class="text-danger">Name must contain max 20 characters</small> 
+                     </div> 
+                 </div>
+        </div>
+        <div class="p-grid p-fluid">  
+          <label for="">Email Content :</label>
+          <div class="p-field p-col-12 ">
+
+    <p-editor   [style]="{'height':'320px'}" formControlName="content"></p-editor>
+          </div>
+        </div>
+      </div>
+      </form>
+
+        <ng-template pTemplate="footer">
+
+        <button type="button" (click)="hideTheModal()"class="btn btn-outline-primary"style="border:none;">Cancel</button>
+        <button type="button" class="btn btn-outline-primary" style="border:none;" (click)="addType()">Save</button>
+        </ng-template>
+
+ 
+</p-dialog>
+
+
+<p-dialog header="Info" [(visible)]="displayBasic" [style]="{width: '50vw'}" [baseZIndex]="10000">
+  <i class="pi pi-info-circle" [style]="{'font-size':'25px'}"></i>
+  Put //dynamic content//
+
+  <ng-template pTemplate="footer">
+      <p-button icon="pi pi-check" (click)="displayBasic=false" label="Ok" styleClass="p-button-text"></p-button>
+  </ng-template>
+</p-dialog>
+
+
+
+
+
+<!-- Update popup-->
+<p-dialog header="Update Type" [(visible)]="updateTypeModal" [modal]="true" [style]="{ width: '150vh' }"
+[baseZIndex]="10000" [draggable]="false"[resizable]="true" styleClass="p-fluid">
+        
+    <form [formGroup]="typeForm" >
+    
+        <div class="p-grid p-fluid">  
+  
+  
+          <div class="p-field p-col-6 ">
+             <label for="paper_name">Type Name</label>
+                  <input id="type_name" type="text" pInputText class="brad" formControlName="type_name"> 
+                  <div *ngIf="type_name.touched && type_name.invalid"> 
+                    <small *ngIf="type_name.errors.required"class="text-danger">Name is required <br> </small> 
+                    <small  *ngIf="type_name.errors.minlength" class="text-danger">Name must contain 4 characters at least<br></small> 
+                    <small *ngIf="type_name.errors.maxlength" class="text-danger">Name must contain max 20 characters</small> 
+                  </div> 
+              </div>
+          <div class="p-field p-col-6 " [style]="{'margin-top':'5vh'}">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" formControlName="alert"  (change)="isRenewing($event)">
+              <label class="form-check-label" for="flexCheckDefault">
+              <h2>Is Renewing</h2> 
+              </label>
+            </div>
+        
+          </div>
+        </div>
+        <div *ngIf="showMailForm">
+        <h2>Email Info : <button pButton pRipple type="button" icon="pi pi-info-circle" class="p-button-rounded p-button-danger p-button-text" (click)="displayBasic=true"></button>
+        </h2>
+        <div class="p-grid p-fluid">  
+              <div class="p-field p-col-6 ">
+                <label for="paper_name">Subject :</label>
+                     <input id="type_name" type="text" pInputText class="brad" formControlName="subject"> 
+                     <div *ngIf="subject.touched && subject.invalid"> 
+                       <small *ngIf="subject.errors.required"class="text-danger">Name is required <br> </small> 
+                       <small  *ngIf="subject.errors.minlength" class="text-danger">Name must contain 4 characters at least<br></small> 
+                       <small *ngIf="subject.errors.maxlength" class="text-danger">Name must contain max 20 characters</small> 
+                     </div> 
+                 </div>
+        </div>
+        <div class="p-grid p-fluid">  
+          <label for="">Email Content :</label>
+          <div class="p-field p-col-12 ">
+
+    <p-editor   [style]="{'height':'320px'}" formControlName="content"></p-editor>
+          </div>
+        </div>
+      </div>
+      </form>
+
+        <ng-template pTemplate="footer">
+
+        <button type="button" (click)="updateTypeModal = false" class="btn btn-outline-primary"style="border:none;">Cancel</button>
+        <button type="button" class="btn btn-outline-primary" style="border:none;" (click)="updateType()">Save</button>
+        </ng-template>
+
+ 
+</p-dialog>

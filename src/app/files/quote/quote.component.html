@@ -1,0 +1,124 @@
+<h1 class="title_erp">Manage Quotes</h1>
+
+<!--Toolbar-->
+ <p-toolbar
+ [style]="{
+    width: '70rem',
+    'margin-bottom': '2rem',
+    'margin-right': '2rem',
+    height: '4rem',
+    'background-color': '',
+    border: 'none'
+  }"
+  styleClass="p-mb-4"
+>
+  <ng-template pTemplate="left">
+    <button
+      pButton
+      pRipple
+      label="New"
+      icon="pi pi-plus"
+     (click)="addQuote()"
+      class="p-button-success p-mr-2 p-button-rounded"
+      *ngIf="filterActions('create','quote')"
+    ></button>
+    <button
+      pButton
+      pRipple
+      style="color: white"
+      icon="pi pi-trash"
+      [disabled]="!selectedquote || !selectedquote.length"
+      class="p-button-rounded p-button-warning"
+      (click)="deleteQuote()"
+      *ngIf="filterActions('delete','quote')"
+    ></button>
+  </ng-template>
+</p-toolbar>
+
+<!--Table-->
+<div class="card">
+  <p-table
+    #dt
+    [value]="quotes | quote:searchKey"
+    [rows]="10"
+    [paginator]="true"
+    [(selection)]="selectedquote"
+    [globalFilterFields]="['name', 'age']"
+    [rowHover]="true"
+    dataKey="id"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [showCurrentPageReport]="true"
+    styleClass="p-datatable-responsive-demo"
+  >
+  <ng-template pTemplate="caption">
+    <div class="p-d-flex p-ai-center p-jc-between">
+      <h5 class="p-m-0 title_erp" style="font-size: 20px; "> Quote List</h5>
+      <span class="p-input-icon-left">
+        <i class="pi pi-search"></i>
+        <input pInputText type="text" class="brad" placeholder="Search..." [(ngModel)]="searchKey"/>
+      </span>
+    </div>
+  </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 3rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th pSortableColumn="name">
+          Quote Num 	<p-columnFilter type="text" field="quoteNum" display="menu"></p-columnFilter>
+        </th>
+        <th pSortableColumn="name">
+          Client 	<p-columnFilter type="text" field="client.client_name" display="menu"></p-columnFilter>
+        </th>
+        <th pSortableColumn="name">
+          Fact Date	<p-columnFilter type="text" field="DateFacturation" display="menu"></p-columnFilter>
+        </th>
+        <th pSortableColumn="name">
+          HT Price	<p-columnFilter type="text" field="price_ht" display="menu"></p-columnFilter>
+        </th>
+        <th pSortableColumn="name">
+          TVA Price	<p-columnFilter type="text" field="price_tva" display="menu"></p-columnFilter>
+        </th>
+        <th pSortableColumn="name">
+          TTC Price	<p-columnFilter type="text" field="total_ttc" display="menu"></p-columnFilter>
+        </th>
+
+        <th></th>
+
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-quote>
+      <tr>
+        <td>
+          <p-tableCheckbox [value]="quote"></p-tableCheckbox>
+        </td>
+         <td>{{ quote.QuoteNum }}</td>
+         <td>{{ quote.client.client_name }}</td>
+         <td>{{ quote.DateFacturation | date: 'mediumDate' }}</td>
+         <td>{{ quote.ht_price }}</td>
+         <td>{{ quote.price_tva }}</td>
+         <td>{{ quote.total_ttc }}</td>
+          <td>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-pencil"
+            class="p-button-rounded p-button-success p-mr-2"
+            (click)="updatequote(quote.id)"
+            *ngIf="filterActions('update','quote')"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      <div class="p-d-flex p-ai-center p-jc-between">
+        In total there are {{ quotes ? quotes.length : 0 }} quotes.
+      </div>
+    </ng-template>
+  </p-table>
+  </div>
+
+
+
+
+

@@ -1,0 +1,112 @@
+<p-dialog header="Update Paper" [(visible)]="updatePaperModal" [modal]="true"[style]="{ width: '150vh','height':'100vh' }"[baseZIndex]="10000" 
+  [draggable]="false"  [resizable]="false" styleClass="p-fluid" (onHide)="hideTheModal()">
+  <div class="p-fluid">    
+    <form [formGroup]="paperForm" >
+    
+      <div class="p-grid p-fluid">  
+
+
+        <div class="p-field p-col-6 ">
+    
+            <label for="paper_name">Paper Name</label>
+                <input id="paper_name" type="text" pInputText class="brad" formControlName="paper_name"> 
+                <div *ngIf="paper_name.touched && paper_name.invalid"> 
+                  <small *ngIf="paper_name.errors.required"class="text-danger">Name is required <br> </small> 
+                  <small  *ngIf="paper_name.errors.minlength" class="text-danger">Name must contain 4 characters at least<br></small> 
+                  <small *ngIf="paper_name.errors.maxlength" class="text-danger">Name must contain max 20 characters</small> 
+                </div> 
+            </div>
+        <div class="p-field p-col-4">
+          <label for="paper_type"> Paper Type : </label>
+          <select class="form-select" aria-label="Default select example" formControlName="paper_type">
+              <option *ngFor="let type of papersType" value="{{ type.id }}" >{{ type.paper_type }}</option>
+          </select>
+          <div *ngIf="paper_type.touched && paper_type.invalid"> 
+            <small *ngIf="paper_type.errors.required"class="text-danger">Paper Type is required <br> </small> 
+          </div> 
+      </div>
+      <div class="p-field p-col-2" [style]="{'margin-top':'35px'}">
+        <button type="button" class="btn btn-outline-primary"style="border:none;"icon="pi pi-plus">Add Type</button>
+      </div>
+
+      </div>
+    
+    
+    <div class="p-grid p-fluid">  
+      <div class="p-field p-col-6 ">
+          <label for="icon">Start Date</label>
+              <!-- <input id="expiration_date" type="date" pInputText class="brad" formControlName="expiration_date">  -->
+              <p-calendar  [showIcon]="true" inputId="icon"formControlName="start_date"></p-calendar>
+              <div *ngIf="start_date.touched && start_date.invalid"> 
+                <small *ngIf="start_date.errors.required"class="text-danger">start Date is required <br> </small> 
+              </div> 
+      </div>
+
+      <div class="p-field p-col-6 ">
+        <label for="icon">End Date</label>
+            <!-- <input id="expiration_date" type="date" pInputText class="brad" formControlName="expiration_date">  -->
+            <p-calendar  [showIcon]="true" inputId="icon"formControlName="end_date"></p-calendar>
+            <div *ngIf="end_date.touched && end_date.invalid"> 
+              <small *ngIf="end_date.errors.required"class="text-danger">End Date is required <br> </small> 
+            </div> 
+    </div>
+   
+    </div>
+
+    <div class="p-grid p-fluid">  
+     
+      <div class="p-field p-col-6 ">
+        <label for="project_id"> Project </label>
+        <select class="form-select" aria-label="Default select example" formControlName="project_id">
+            <option *ngFor="let project of projects" value="{{ project.id }}">{{ project.project_name }}</option>
+        </select>
+        <div *ngIf="project_id.touched && project_id.invalid"> 
+          <small *ngIf="project_id.errors.required"class="text-danger">Project is required <br> </small> 
+        </div> 
+      </div>
+            <div class="p-field p-col-6 ">
+              <label for="status"> Status </label>
+              <select class="form-select" aria-label="Default select example" formControlName="status">
+                  <option *ngFor="let status of status_paper" value="{{ status.id }}">{{ status.status_name }}</option>
+              </select>
+              <div *ngIf="status.touched && status.invalid"> 
+                <small *ngIf="status.errors.required"class="text-danger">Status is required <br> </small> 
+              </div> 
+            </div>
+           
+
+           
+            </div>
+
+            <div class="p-grid p-fluid">  
+              <div class="p-field p-col-6 ">
+                <label for="file">File: <a href="{{fileGenralLink}}{{selectedFilePath}}" target="_blank">( Current File )</a></label><br>
+                <input class="form-control" type="file" id="formFile" formControlName="file" (change)="selectFile($event)">           
+              </div>
+              <!-- <div class="form-check form-switch" style="margin-top: 25px;">
+                <label class="form-check-label" for="flexSwitchCheckDefault" >Active Notification :</label><br>
+                <input type="checkbox" id="check"  formControlName="auto_email">
+              </div> -->
+
+              <div class="form-check form-switch" style="margin-top: 25px;">
+                <label class="form-check-label" for="flexSwitchCheckDefault" >Active Notification :</label><br>
+                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault"formControlName="auto_email" >
+              </div>
+            </div>
+            <div class="p-grid p-fluid"> 
+              <div class="p-field p-col-12">
+                <span class="p-float-label" >
+                  <textarea rows="5" cols="30" pInputTextarea formControlName="description"></textarea>
+                  <label for="description">Description</label>
+                </span>
+                    </div> 
+                    </div>
+
+    </form>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <button type="button" (click)="hideTheModal()" class="btn btn-outline-primary"style="border:none;">Cancel</button>
+    <button type="button" (click)="updatePaper()"class="btn btn-outline-primary" [disabled]="paperForm.invalid"style="border:none;">Update</button>
+</ng-template>
+</p-dialog>

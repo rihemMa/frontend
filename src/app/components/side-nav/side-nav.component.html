@@ -1,0 +1,85 @@
+<nav id="sidebar" class="sidebar" >
+    <div class="sidebar-content js-simplebar">
+      <a class="sidebar-brand" [routerLink]="['/dashboard']">
+        <span class="align-middle">Nachd-IT</span>
+      </a>
+
+      <ul class="sidebar-nav">
+        <li class="sidebar-header">Pages</li>
+
+        <li class="sidebar-item active" id="item" >
+          <a class="sidebar-link" [routerLink]="['/dashboard']">
+            <i class="align-middle" data-feather="grid"></i>
+            <span class="align-middle">Dashboard</span>
+          </a>
+        </li>
+        <li class="sidebar-item" *ngIf="filterRoutes('company')">
+          <a class="sidebar-link" [routerLink]="['/company']">
+            <i class="align-middle" data-feather="file-text"></i>
+            <span class="align-middle">Company</span>
+          </a>
+        </li>
+
+        <li class="sidebar-item" id="item" *ngIf="filterRoutes('client')">
+        <a class="sidebar-link" [routerLink]="['/clients']">
+            <i class="align-middle" data-feather="users"></i>
+            <span class="align-middle">Clients</span>
+          </a>
+        </li>
+
+        <li class="sidebar-item" *ngIf="filterRoutes('project')">
+          <a class="sidebar-link" [routerLink]="['/projects']">
+            <i class="align-middle" data-feather="book"></i>
+            <span class="align-middle">Projects</span>
+          </a>
+        </li>
+
+        <li class="sidebar-item" *ngIf="filterRoutes('user')">
+          <a class="sidebar-link" [routerLink]="['/users']">
+            <i class="align-middle" data-feather="users"></i>
+            <span class="align-middle">Users</span>
+          </a>
+        </li>
+
+        <li class="sidebar-item" *ngIf="filterRoutes('role')">
+          <a class="sidebar-link" [routerLink]="['/roles']">
+            <i class="align-middle" data-feather="list"></i>
+            <span class="align-middle">Roles</span>
+          </a>
+        </li>
+        <li class="sidebar-item" *ngIf="filterRoutes('bill')">
+          <a class="sidebar-link" [routerLink]="['/bills']">
+            <i class="align-middle" data-feather="credit-card"></i>
+            <span class="align-middle">Bills</span>
+          </a>
+        </li>
+        <li class="sidebar-item" *ngIf="filterRoutes('quote')">
+          <a class="sidebar-link" [routerLink]="['/quotes']">
+            <i class="align-middle" data-feather="credit-card"></i>
+            <span class="align-middle">Quotes</span>
+          </a>
+        </li>
+        <li class="sidebar-item" *ngIf="filterRoutes('paper')">
+          <a class="sidebar-link"  [routerLink]="['/paperManager']">
+            <i class="align-middle" data-feather="file"></i>
+            <span class="align-middle">Paper Manager</span>
+          </a>
+        </li>
+        <li class="sidebar-item" *ngIf="filterRoutes('paperType')">
+          <a class="sidebar-link" [routerLink]="['/addPaperType']">
+            <i class="align-middle" data-feather="file-text"></i>
+            <span class="align-middle">Paper Types</span>
+          </a>
+        </li>
+
+        <li class="sidebar-item" *ngIf="filterRoutes('activityLog')">
+          <a class="sidebar-link" [routerLink]="['/activityLog']">
+            <i class="align-middle" data-feather="activity"></i>
+            <span class="align-middle">Activities</span>
+          </a>
+        </li>
+
+
+      </ul>
+    </div>
+  </nav>

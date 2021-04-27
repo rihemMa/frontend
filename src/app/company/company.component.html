@@ -1,0 +1,162 @@
+<br> <br>
+<br> <br>
+<br> <br>
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
+
+        <div class="row justify-content-center">
+          <div class="col-lg-3 order-lg-2">
+            <div class="card-profile-image">
+              <br>
+              <br>
+              <a >
+                <img src="{{generalLink}}{{path}}" alt="" class="rounded-circle">
+                <br>
+                <br><br>
+                <br><br>
+                <br><br>
+                <br> <input type="file" id="formFile" (change)="selectFile($event)">
+              </a>
+            </div>
+          </div>
+        </div>
+    </div>
+
+<div class="col-xl-8 order-xl-1">
+  <div class="card bg-secondary shadow">
+    <div class="card-header bg-white border-0">
+      <div class="row align-items-center">
+        <div class="col-8">
+          <h3 class="mb-0">Company Profile</h3>
+        </div>
+        <div class="col-4 text-right">
+          <button (click)="updateCompany()" class="btn btn-sm btn-primary">Update</button>
+          <button (click)="clearCompanyInfo()" class="btn btn-sm btn-primary">Clear</button>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="companyForm">
+        <h6 class="heading-small text-muted mb-4">Company information</h6>
+        <div class="pl-lg-4">
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="form-group focused">
+                <label class="form-control-label" for="name">Name</label>
+                <input type="text" id="name" formControlName="name" class="form-control form-control-alternative" placeholder="Company Name">
+                <div *ngIf="name.touched && name.invalid">
+                  <small *ngIf="name.errors.required"class="text-danger">Name is required <br> </small>
+                  <small  *ngIf="name.errors.pattern" class="text-danger">Invalid name <br></small>
+                  <small *ngIf="name.errors.minlength" class="text-danger">Name must contain 4 characters at least<br></small>
+                  <small *ngIf="name.errors.maxlength" class="text-danger">Name must contain max 20 characters</small>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label class="form-control-label" for="email">Email address</label>
+                <input type="email" id="email" class="form-control form-control-alternative" placeholder="nachd@example.com" formControlName="email">
+                <div *ngIf="email.touched && email.invalid">
+                  <small *ngIf="email.errors.required" class="text-danger">email is required<br> </small>
+                  <small *ngIf="email.errors.email" class="text-danger">Invalid email<br> </small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="form-group focused">
+                <label class="form-control-label" for="phone_number">Phone</label>
+                <input type="text" formControlName="phone_number" id="phone_number" class="form-control form-control-alternative" placeholder="The phone number" value="phone number">
+
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group focused">
+                <label class="form-control-label" for="mat_fiscal">tax registration number</label>
+                <input id="mat_fiscal" formControlName="mat_fiscal" class="form-control form-control-alternative" placeholder="tax registration number" value="The tax registration number" type="text">
+
+               </div>
+
+            </div>
+          </div>
+        </div>
+        <hr class="my-4">
+        <!-- Address -->
+        <h6 class="heading-small text-muted mb-4">Contact information</h6>
+        <div class="pl-lg-4">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group focused">
+                <label class="form-control-label" for="local">Address</label>
+                <input type="text" id="local" formControlName="local" class="form-control form-control-alternative" placeholder="local" value="local">
+               </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="form-group focused">
+                <label class="form-control-label" for="bank">Bank</label>
+                <input type="text" id="bank" formControlName="bank" class="form-control form-control-alternative" placeholder="Bank" value="Bank">
+
+              </div>
+
+            </div>
+            <div class="col-lg-4">
+              <div class="form-group focused">
+                <label class="form-control-label" for="tva">VAT rate</label>
+                <input type="text" id="tva"  formControlName="tva"  class="form-control form-control-alternative" placeholder="VAT rate" value="VAT rate">
+
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label class="form-control-label" for="tax">Tax Stamp</label>
+                <input type="number" id="tax" formControlName="tax" class="form-control form-control-alternative" placeholder="Tax Stamp">
+
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group focused">
+                  <label class="form-control-label" for="domaine">Domaine</label>
+                  <input type="text" id="domaine" formControlName="domaine" class="form-control form-control-alternative" placeholder="Domaine" value="Domaine">
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <hr class="my-4">
+
+        <h6 class="heading-small text-muted mb-4">Users Emails List</h6>
+        <div class="pl-lg-4">
+            <div class="row">
+              <table class="table">
+                <thead>
+                  <tr >
+                    <th scope="col">#</th>
+                    <th scope="col">User</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">To be sent for</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let user of users">
+                    <th scope="row">{{user.id}}</th>
+                    <td > {{user.name}}  </td>
+                    <td >{{user.email}}</td>
+                    <td ><input class="form-check-input" type="checkbox" value="" id="defaultCheck1"></td>
+                  </tr>
+                </tbody>
+              </table>
+
+            </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
